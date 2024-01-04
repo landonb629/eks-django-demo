@@ -1,0 +1,30 @@
+version: '3'
+services:
+  task:
+    build: ./app/task/
+    command: python3 manage.py runserver 0.0.0.0:3000
+    volumes:
+      - ./app/task/:/usr/src/app
+    ports:
+      - "3000:3000"
+    environment:
+      - POSTGRES_DB=task_db
+      - POSTGRES_USER=task_user
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - task_db
+    networks:
+      - task_network
+  task_db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=task_db
+      - POSTGRES_USER=task_user
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - task_network
+
+networks:
+  task_network:
