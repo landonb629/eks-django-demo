@@ -9,12 +9,13 @@ module "eks" {
     vpc-cni = { 
       most_recent = true 
       before_compute = true 
-    }
+    },
+
   }
 
   vpc_id = module.vpc.vpc_id
   subnet_ids = module.vpc.public_subnets
-  control_plane_subnet_ids = module.vpc.private_subnets
+  control_plane_subnet_ids = module.vpc.public_subnets
 
   eks_managed_node_group_defaults = { 
     instance_types = ["t3.medium", "t3.large"]
@@ -31,4 +32,14 @@ module "eks" {
   }
 
   manage_aws_auth_configmap = true 
+}
+
+resource "aws_iam_role" "ebs-csi-role" { 
+  name = "eks-ebs-csi-role"
+  assume_role_policy = data.aws_iam_policy_document.ebs-assume-role-policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "ebs-csi-role-attachment" { 
+  role = aws_iam_role.ebs-csi-role.name
+  policy_arn = data.aws_iam_policy.ebs-csi-managed-policy.arn
 }

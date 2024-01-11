@@ -11,6 +11,7 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dhcp_options = true 
   enable_nat_gateway = true
+  map_public_ip_on_launch = true
 
   tags = { 
     Environment = "dev"
