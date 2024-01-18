@@ -27,7 +27,8 @@ all_task_get_args.add_argument("user_id", type=str, help="must provide a created
 
 tasks = {"task_id": "1"}
 def abort_if_task_id_doesnt_exist(task_id):
-  if task_id not in tasks:
+  print(tasks['task_id'])
+  if task_id not in tasks['task_id']:
     abort(404, message="Task id not valid")
 
 def abort_if_task_exists(task_id):
