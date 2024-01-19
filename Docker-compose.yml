@@ -2,11 +2,11 @@ version: '3'
 services:
   task:
     build: ./task/
-    command: python3 -m flask run --host=0.0.0.0 --reload
+    command: uvicorn app:app --reload --host=0.0.0.0
     volumes:
-      - ./app/task/:/usr/src/app
+      - ./task/:/usr/src/app
     ports:
-      - "5000:5000"
+      - "5000:8000"
     environment:
       - POSTGRES_DB=task_db
       - POSTGRES_USER=task_user
@@ -21,7 +21,7 @@ services:
       - ~/data/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=task_db
-      - POSTGRES_USER=task_user
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     networks:
       - task_network
