@@ -1,12 +1,12 @@
 version: '3'
 services:
   task:
-    build: ./task/
-    command: uvicorn app:app --reload --host=0.0.0.0
+    build: ./services/task/
+    command: npm start
     volumes:
-      - ./task/:/usr/src/app
+      - ./services/task/:/usr/src/app
     ports:
-      - "5000:8000"
+      - "3030:3030"
     environment:
       - POSTGRES_DB=task_db
       - POSTGRES_USER=task_user

@@ -10,7 +10,10 @@ module "eks" {
       most_recent = true 
       before_compute = true 
     },
-
+    aws-ebs-csi-driver =  { 
+      service_account_role_arn = data.aws_iam_role.ebs-role.arn
+      resolve_conflicts = "PRESERVE"
+    }
   }
 
   vpc_id = module.vpc.vpc_id
@@ -42,4 +45,8 @@ resource "aws_iam_role" "ebs-csi-role" {
 resource "aws_iam_role_policy_attachment" "ebs-csi-role-attachment" { 
   role = aws_iam_role.ebs-csi-role.name
   policy_arn = data.aws_iam_policy.ebs-csi-managed-policy.arn
+}
+
+data "aws_iam_role" "ebs-role" { 
+  name = aws_iam_role.ebs-csi-role.name
 }
