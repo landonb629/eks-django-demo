@@ -1,5 +1,6 @@
-const express = require("express")
-const cors = require("cors")
+import express, {Express, Request, Response} from "express" 
+import { DataConnection } from "./data-source"
+import cors from 'cors'
 const app = express()
 
 app.use(express.json())
@@ -13,7 +14,7 @@ app.use(cors())
 /**
  * all tasks
  */
-app.get("/", async (req, res) => { 
+app.get("/", async (req: Request, res: Response) => { 
   try { 
     console.log(req)
     res.status(200).send({"msg": "response"})
@@ -25,7 +26,7 @@ app.get("/", async (req, res) => {
 /**
  * single task
  */
-app.get("/:task_id", async (req, res) => { 
+app.get("/:task_id", async (req: Request, res: Response) => { 
   res.status(200).json({"msg": "found"})
 })
 
@@ -51,6 +52,9 @@ app.delete("/:task_id", async (req, res) => {
   res.status(200).json({"msg": "delete"})
 })
 
-app.listen(3030, () => { 
+app.listen(3030, async () => { 
+  DataConnection.initialize().then(() => {
+    console.log('databases have been init')
+  }).catch((error) => {console.log(error)})
   console.log('task application listening')
 })

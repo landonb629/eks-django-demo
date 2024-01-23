@@ -18,13 +18,15 @@ services:
   task_db:
     image: postgres
     volumes:
-      - ~/data/db:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=task_db
-      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     networks:
       - task_network
 
 networks:
   task_network:
+
+volumes:
+  pgdata:
