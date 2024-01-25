@@ -11,6 +11,7 @@ services:
       - POSTGRES_DB=task_db
       - POSTGRES_USER=task_user
       - POSTGRES_PASSWORD=postgres
+      - DATABASE_URL=postgresql://postgres:postgres@task_db:5432/task_db?schema=public
     depends_on:
       - task_db
     networks:
